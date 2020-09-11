@@ -3,15 +3,13 @@ import sys
 import pandas as pd
 import numpy as np
 import matplotlib as mpl
-import  matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import (FigureCanvasQTAgg as FigureCanvas,
-                 NavigationToolbar2QT as NavigationToolbar)
+                                                NavigationToolbar2QT as NavigationToolbar)
 import matplotlib.style as mplStyle
 
-import math
-
 from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QLabel, QVBoxLayout
+from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QLabel, QVBoxLayout, QSplitter, QTableView
 
 from pd_to_tv import pandasModel
 from ui_main import Ui_MainWindow
@@ -28,16 +26,21 @@ class MainForm(QMainWindow):
         mpl.rcParams['font.size'] = 12
         mpl.rcParams['axes.unicode_minus'] = False  # 减号unicode编码
 
-
         self.__fig = plt.figure()
+        self.ax1 = self.__fig.add_subplot(1, 4, 1)
+        self.ax2 = self.__fig.add_subplot(1, 4, 2)
+        self.ax3 = self.__fig.add_subplot(1, 4, 3)
+        self.ax4 = self.__fig.add_subplot(1, 4, 4)
         self.figCanvas = FigureCanvas(self.__fig)
 
+        navigator = NavigationToolbar(self.figCanvas, self)
 
-        self.piclayout = QVBoxLayout(self)
-        self.piclayout.addWidget(self.figCanvas)
+        self.picLayout = QVBoxLayout(self.ui.groupBox_2)
+        self.picLayout.addWidget(self.figCanvas)
+        self.picLayout.addWidget(navigator)
 
-        self.ui.horizontalLayout.addWidget(self.piclayout)
-        self.ax1 = self.__fig.add_subplot(1, 1, 1)
+        self.tv_resultdata = QTableView()
+
 
 
     @pyqtSlot()
@@ -65,7 +68,8 @@ class MainForm(QMainWindow):
 
     @pyqtSlot()
     def on_pb_cal_pressed(self):
-        data = self.ori_data[["#DEPTH", "AC", "DEN", "GR"]].rename(columns = {'#DEPTH':'深度', 'AC':'纵波时差', 'DEN':'密度', 'GR':'自然伽马值'})
+        data = self.ori_data[["#DEPTH", "AC", "DEN", "GR"]].rename(
+            columns={'#DEPTH': '深度', 'AC': '纵波时差', 'DEN': '密度', 'GR': '自然伽马值'})
         data = data[(data["深度"] >= 3450) & (data["深度"] <= 3520)]
         data = data.reset_index(drop=True)
 
@@ -81,14 +85,14 @@ class MainForm(QMainWindow):
         data["C66"] = (data["密度"] * data["Vs90"] * data["Vs90"]) / 1000000
         data["C12"] = data["C11"] - 2 * data["C66"]
         data["C13"] = -data["C44"] + (
-                    4 * data['密度'] ** 2 * data["Vp45"] ** 4 / 10 ** 12 - 2 * data['密度'] * data["Vp45"] ** 2 * (
-                        data['C11'] + data['C33'] + 2 * data['C44']) / 1000000 + (data['C11'] + data['C44'])
-                    * (data['C33'] + data['C44'])) ** 0.5
+                4 * data['密度'] ** 2 * data["Vp45"] ** 4 / 10 ** 12 - 2 * data['密度'] * data["Vp45"] ** 2 * (
+                data['C11'] + data['C33'] + 2 * data['C44']) / 1000000 + (data['C11'] + data['C44'])
+                * (data['C33'] + data['C44'])) ** 0.5
 
         data["Ev"] = data["C33"] - 2 * data["C13"] ** 2 / (data['C11'] + data['C12'])
         data["Eh"] = (data["C11"] - data["C12"]) * (
-                    data["C11"] * data["C33"] - 2 * data["C13"] ** 2 + data["C12"] * data["C33"]) / (
-                                 data["C11"] * data["C33"] - data["C13"] ** 2)
+                data["C11"] * data["C33"] - 2 * data["C13"] ** 2 + data["C12"] * data["C33"]) / (
+                             data["C11"] * data["C33"] - data["C13"] ** 2)
         data["Vv"] = data["C13"] / (data["C11"] + data["C12"])
         data["Vh"] = (data["C12"] * data["C33"] - data["C13"] ** 2) / (data["C11"] * data["C33"] - data["C13"] ** 2)
 
@@ -98,11 +102,11 @@ class MainForm(QMainWindow):
         data["Pv"] = data["深度"] * 2.406 * 9.8 / 1000
         data['Pp'] = 1.03 * 9.8 * data['深度'] / 1000 * 1.18
         data['Ph'] = data["C13"] / data["C33"] * (data["Pv"] - data['Pp'] * a) + data['Pp'] + (
-                    data["C11"] - data["C13"] ** 2 / data["C33"]) * kh + (
-                                 data["C12"] - data["C13"] ** 2 / data["C33"]) * kH
+                data["C11"] - data["C13"] ** 2 / data["C33"]) * kh + (
+                             data["C12"] - data["C13"] ** 2 / data["C33"]) * kH
         data['PH'] = data["C13"] / data["C33"] * (data["Pv"] - data['Pp'] * a) + data['Pp'] + (
-                    data["C11"] - data["C13"] ** 2 / data["C33"]) * kH + (
-                                 data["C12"] - data["C13"] ** 2 / data["C33"]) * kh
+                data["C11"] - data["C13"] ** 2 / data["C33"]) * kH + (
+                             data["C12"] - data["C13"] ** 2 / data["C33"]) * kh
 
         data['Vsh'] = (data['自然伽马值'] - 50.667) / 75.043
         data['Stv'] = (0.0045 * data["Ev"] * (1 - data['Vsh']) + 0.008 * data["Ev"] * data['Vsh']) / 12 * 1000
@@ -114,17 +118,22 @@ class MainForm(QMainWindow):
 
     @pyqtSlot()
     def on_pb_paint_pressed(self):
-        self.ax1.plot(self.layerdata['深度'], self.layerdata['Ev'], 'r-o', label='垂向杨氏模量', linewidth=2, markersize=5)
+        self.ax1.plot(self.layerdata['Ev'], self.layerdata['深度'], color='red', label='垂向杨氏模量', linewidth=1)
+        self.ax1.plot(self.layerdata['Eh'], self.layerdata['深度'], color='green', label='水平杨氏模量', linewidth=1)
+        self.ax2.plot(self.layerdata['Vv'], self.layerdata['深度'], color='yellow', label='垂向泊松比', linewidth=1)
+        self.ax2.plot(self.layerdata['Vh'], self.layerdata['深度'], color='', label='水平泊松比', linewidth=1)
+        self.ax3.plot(self.layerdata['Ph'], self.layerdata['深度'], color='', label='水平最小主应力', linewidth=1)
+        self.ax3.plot(self.layerdata['PH'], self.layerdata['深度'], color='', label='水平最大主应力', linewidth=1)
         # self.ax1.set_xlabel('X轴')
         # self.ax1.set_ylabel('y轴')
         self.ax1.set_title('eqweqwwq')
         self.ax1.legend()
 
+        self.figCanvas.draw()
+
     @pyqtSlot()
     def on_pb_toexcel_pressed(self):
-
-
-
+        pass
 
 
 if __name__ == '__main__':

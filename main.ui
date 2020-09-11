@@ -6,21 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1293</width>
-    <height>886</height>
+    <width>1260</width>
+    <height>878</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>页岩油储层岩石参数转化软件</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout">
+   <layout class="QVBoxLayout" name="verticalLayout" stretch="1,1">
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
+     <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,1">
       <item>
        <widget class="QGroupBox" name="groupBox">
         <property name="title">
-         <string>储层参数计算结果与曲线</string>
+         <string>储层参数计算结果</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -28,13 +28,23 @@
         <widget class="QTableView" name="tableView_2">
          <property name="geometry">
           <rect>
-           <x>40</x>
+           <x>30</x>
            <y>40</y>
            <width>541</width>
-           <height>351</height>
+           <height>311</height>
           </rect>
          </property>
         </widget>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBox_2">
+        <property name="title">
+         <string>岩石力学参数曲线</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
        </widget>
       </item>
      </layout>
@@ -55,10 +65,10 @@
         <widget class="QTableView" name="tableView">
          <property name="geometry">
           <rect>
-           <x>50</x>
-           <y>40</y>
-           <width>551</width>
-           <height>301</height>
+           <x>20</x>
+           <y>30</y>
+           <width>561</width>
+           <height>341</height>
           </rect>
          </property>
         </widget>
@@ -140,8 +150,8 @@
         <widget class="QLabel" name="label">
          <property name="geometry">
           <rect>
-           <x>30</x>
-           <y>40</y>
+           <x>20</x>
+           <y>30</y>
            <width>54</width>
            <height>12</height>
           </rect>
@@ -153,7 +163,7 @@
         <widget class="QDoubleSpinBox" name="doubleSpinBox">
          <property name="geometry">
           <rect>
-           <x>70</x>
+           <x>60</x>
            <y>30</y>
            <width>62</width>
            <height>22</height>
@@ -172,7 +182,7 @@
         <widget class="QLabel" name="label_2">
          <property name="geometry">
           <rect>
-           <x>30</x>
+           <x>20</x>
            <y>70</y>
            <width>54</width>
            <height>12</height>
@@ -185,7 +195,7 @@
         <widget class="QDoubleSpinBox" name="doubleSpinBox_2">
          <property name="geometry">
           <rect>
-           <x>70</x>
+           <x>60</x>
            <y>70</y>
            <width>62</width>
            <height>22</height>
@@ -212,7 +222,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1293</width>
+     <width>1260</width>
      <height>23</height>
     </rect>
    </property>
