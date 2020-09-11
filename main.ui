@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1293</width>
+    <height>886</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>页岩油储层岩石参数转化软件</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QGroupBox" name="groupBox">
+        <property name="title">
+         <string>储层参数计算结果与曲线</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <widget class="QTableView" name="tableView_2">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>40</y>
+           <width>541</width>
+           <height>351</height>
+          </rect>
+         </property>
+        </widget>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QGroupBox" name="groupBox_4">
+        <property name="cursor">
+         <cursorShape>ArrowCursor</cursorShape>
+        </property>
+        <property name="title">
+         <string>测井资料</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <widget class="QTableView" name="tableView">
+         <property name="geometry">
+          <rect>
+           <x>50</x>
+           <y>40</y>
+           <width>551</width>
+           <height>301</height>
+          </rect>
+         </property>
+        </widget>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBox_3">
+        <property name="title">
+         <string>井场参数输入</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <widget class="QPushButton" name="pb_load">
+         <property name="geometry">
+          <rect>
+           <x>320</x>
+           <y>110</y>
+           <width>121</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>导入测井资料</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="pb_cal">
+         <property name="geometry">
+          <rect>
+           <x>320</x>
+           <y>160</y>
+           <width>121</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>计算岩石力学参数</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="pb_paint">
+         <property name="geometry">
+          <rect>
+           <x>320</x>
+           <y>210</y>
+           <width>121</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>绘制力学参数曲线</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="pb_toexcel">
+         <property name="geometry">
+          <rect>
+           <x>320</x>
+           <y>260</y>
+           <width>121</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>导出数据到excel文件</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="pb_topic">
+         <property name="geometry">
+          <rect>
+           <x>320</x>
+           <y>310</y>
+           <width>121</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>导出图片</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label">
+         <property name="geometry">
+          <rect>
+           <x>30</x>
+           <y>40</y>
+           <width>54</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>顶深：</string>
+         </property>
+        </widget>
+        <widget class="QDoubleSpinBox" name="doubleSpinBox">
+         <property name="geometry">
+          <rect>
+           <x>70</x>
+           <y>30</y>
+           <width>62</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="buttonSymbols">
+          <enum>QAbstractSpinBox::NoButtons</enum>
+         </property>
+         <property name="maximum">
+          <double>9999.000000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.010000000000000</double>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_2">
+         <property name="geometry">
+          <rect>
+           <x>30</x>
+           <y>70</y>
+           <width>54</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>底深：</string>
+         </property>
+        </widget>
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_2">
+         <property name="geometry">
+          <rect>
+           <x>70</x>
+           <y>70</y>
+           <width>62</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="buttonSymbols">
+          <enum>QAbstractSpinBox::NoButtons</enum>
+         </property>
+         <property name="maximum">
+          <double>9999.000000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.010000000000000</double>
+         </property>
+        </widget>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1293</width>
+     <height>23</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
