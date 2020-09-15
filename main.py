@@ -12,7 +12,7 @@ from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QLabel, QVBoxLayout, QSplitter, QTableView
 
 from pd_to_tv import pandasModel
-from ui_main import Ui_MainWindow
+from ui_main2 import Ui_MainWindow
 
 
 class MainForm(QMainWindow):
@@ -39,7 +39,7 @@ class MainForm(QMainWindow):
         self.picLayout.addWidget(self.figCanvas)
         self.picLayout.addWidget(navigator)
 
-        self.tv_resultdata = QTableView()
+        self.setCentralWidget(self.ui.splitter_3)
 
 
 
@@ -50,11 +50,11 @@ class MainForm(QMainWindow):
                                                     path, "常规测井文件(*.txt);;")
         self.filename = filename
 
-        if (filename == ""):
+        if filename == "":
             return
+        self.ori_data = pd.read_table(filename, sep="\s+", skiprows=6)
 
         # file = open(filename, "r", encoding="UTF-8") # 使用pandas直接读取文件，不需要这一行
-        self.ori_data = pd.read_table(filename, sep="\s+", skiprows=6)
         # file.close()
 
         model_ori = pandasModel(self.ori_data)
@@ -70,7 +70,7 @@ class MainForm(QMainWindow):
     def on_pb_cal_pressed(self):
         data = self.ori_data[["#DEPTH", "AC", "DEN", "GR"]].rename(
             columns={'#DEPTH': '深度', 'AC': '纵波时差', 'DEN': '密度', 'GR': '自然伽马值'})
-        data = data[(data["深度"] >= 3450) & (data["深度"] <= 3520)]
+        data = data[(data["深度"] >= self.ui.db_bottom.value()) & (data["深度"] <= self.ui.db_top.value())]
         data = data.reset_index(drop=True)
 
         data["Vp0"] = 1 / data["纵波时差"] * 304800
@@ -120,13 +120,16 @@ class MainForm(QMainWindow):
     def on_pb_paint_pressed(self):
         self.ax1.plot(self.layerdata['Ev'], self.layerdata['深度'], color='red', label='垂向杨氏模量', linewidth=1)
         self.ax1.plot(self.layerdata['Eh'], self.layerdata['深度'], color='green', label='水平杨氏模量', linewidth=1)
-        self.ax2.plot(self.layerdata['Vv'], self.layerdata['深度'], color='yellow', label='垂向泊松比', linewidth=1)
-        self.ax2.plot(self.layerdata['Vh'], self.layerdata['深度'], color='', label='水平泊松比', linewidth=1)
-        self.ax3.plot(self.layerdata['Ph'], self.layerdata['深度'], color='', label='水平最小主应力', linewidth=1)
-        self.ax3.plot(self.layerdata['PH'], self.layerdata['深度'], color='', label='水平最大主应力', linewidth=1)
-        # self.ax1.set_xlabel('X轴')
-        # self.ax1.set_ylabel('y轴')
-        self.ax1.set_title('eqweqwwq')
+        self.ax2.plot(self.layerdata['Vv'], self.layerdata['深度'], color='brown', label='垂向泊松比', linewidth=1)
+        self.ax2.plot(self.layerdata['Vh'], self.layerdata['深度'], color='pink', label='水平泊松比', linewidth=1)
+        self.ax3.plot(self.layerdata['Ph'], self.layerdata['深度'], color='purple', label='水平最小主应力', linewidth=1)
+        self.ax3.plot(self.layerdata['PH'], self.layerdata['深度'], color='blue', label='水平最大主应力', linewidth=1)
+        self.ax4.plot(self.layerdata['Stv'], self.layerdata['深度'], color='grey', label='垂向抗拉强度', linewidth=1)
+        self.ax4.plot(self.layerdata['Sth'], self.layerdata['深度'], color='black', label='水平抗拉强度', linewidth=1)
+
+        self.ax1.set_xlabel('X轴')
+        self.ax1.set_ylabel('y轴')
+        # self.ax1.set_title('eqweqwwq')
         self.ax1.legend()
 
         self.figCanvas.draw()
