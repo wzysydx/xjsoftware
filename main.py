@@ -9,7 +9,7 @@ from matplotlib.backends.backend_qt5agg import (FigureCanvasQTAgg as FigureCanva
 import matplotlib.style as mplStyle
 
 from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QLabel, QVBoxLayout, QSplitter, QTableView
+from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QLabel, QVBoxLayout
 
 from pd_to_tv import pandasModel
 from ui_main2 import Ui_MainWindow
